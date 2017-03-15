@@ -3,7 +3,8 @@ lazy val protos = (project in file("protos"))
     name := "protos",
     libraryDependencies ++= Seq(
       "com.thesamet.test" % "test-protos" % "0.1" % "protobuf",
-      "com.trueaccord.scalapb" %% "scalapb-runtime" % "0.5.47" % "protobuf"
+      "com.trueaccord.scalapb" %% "scalapb-runtime" % "0.5.47" % "protobuf",
+      "com.devim" %% "proto-utils" % "0.1.0-SNAPSHOT" % "protobuf"
     ),
 
     // Dependencies marked with "protobuf" get extracted to target / protobuf_external
@@ -12,6 +13,7 @@ lazy val protos = (project in file("protos"))
     // protos.  In order to avoid compiling them, we restrict what's compiled
     // to a subdirectory of protobuf_external
     PB.protoSources in Compile += target.value / "protobuf_external" / "com" / "thesamet",
+    PB.protoSources in Compile += target.value / "protobuf_external" / "devim" / "protobuf",
 
     PB.targets in Compile := Seq(
       scalapb.gen() -> (sourceManaged in Compile).value
@@ -29,7 +31,8 @@ lazy val sub1 = (project in file("sub1"))
     // dependency on protos project.
     libraryDependencies ++= Seq(
       "com.thesamet.test" % "test-protos" % "0.1" % "protobuf",
-      "com.trueaccord.scalapb" %% "scalapb-runtime" % "0.5.47" % "protobuf"
+      "com.trueaccord.scalapb" %% "scalapb-runtime" % "0.5.47" % "protobuf",
+      "com.devim" %% "proto-utils" % "0.1.0-SNAPSHOT" % "protobuf"
     ),
 
     PB.targets in Compile := Seq(
@@ -37,4 +40,3 @@ lazy val sub1 = (project in file("sub1"))
     )
   )
   .dependsOn(protos)
-
